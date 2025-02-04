@@ -6,6 +6,7 @@ export default function App() {
     author: "",
     content: "",
     category: "",
+    published: false,
   });
 
   const handleFormField = (fieldName, value) => {
@@ -33,25 +34,31 @@ export default function App() {
       <ul>
         {list.map((item) => (
           <li key={item.index}>
-            {item.author} | {item.content} | {item.category}
+            {item.author} | {item.content} | {item.category} |{" "}
+            {item.published ? "Pubblicato" : "Privato"}
           </li>
         ))}
       </ul>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="author">Autore:</label>
         <input
           type="text"
+          name="author"
           placeholder="Inserisci l'autore"
           value={formData.author}
           onChange={(event) => handleFormField("author", event.target.value)}
         />
         <br />
+        <label htmlFor="content">Contenuto:</label>
         <input
           type="text"
+          name="content"
           placeholder="Inserisci il contenuto"
           value={formData.content}
           onChange={(event) => handleFormField("content", event.target.value)}
         />
         <br />
+        <label htmlFor="category">Categoria:</label>
         <select
           name="category"
           value={formData.category}
@@ -62,6 +69,15 @@ export default function App() {
           <option value="BackEnd">BackEnd</option>
           <option value="UI/UX">UI/UX</option>
         </select>
+        <br />
+        <input
+          type="checkbox"
+          value={formData.published}
+          onChange={(event) =>
+            handleFormField("published", event.target.checked)
+          }
+        />
+        <br />
         <button type="submit">Invia</button>
       </form>
     </div>
