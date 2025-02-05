@@ -5,7 +5,7 @@ export default function App() {
   const [formData, setFormData] = useState({
     author: "",
     content: "",
-    category: "",
+    category: "FrontEnd",
     published: false,
   });
 
@@ -28,17 +28,30 @@ export default function App() {
     });
   };
 
+  const emptyList = () => {
+    setList([]);
+  };
+
+  const handleDelete = (index) => {
+    setList((currentState) =>
+      currentState.filter((item, itemIndex) => itemIndex !== index)
+    );
+  };
+
   return (
     <div>
       <h1>Lista</h1>
       <ul>
-        {list.map((item) => (
+        {list.map((item, index) => (
           <li key={item.index}>
             {item.author} | {item.content} | {item.category} |{" "}
             {item.published ? "Pubblicato" : "Privato"}
+            <button onClick={() => handleDelete(index)}>⨉</button>
           </li>
         ))}
       </ul>
+      <button onClick={emptyList}>Cancella lista</button>
+      <hr />
       <form onSubmit={handleSubmit}>
         <label htmlFor="author">Autore:</label>
         <input
@@ -47,6 +60,7 @@ export default function App() {
           placeholder="Inserisci l'autore"
           value={formData.author}
           onChange={(event) => handleFormField("author", event.target.value)}
+          required
         />
         <br />
         <label htmlFor="content">Contenuto:</label>
@@ -56,6 +70,7 @@ export default function App() {
           placeholder="Inserisci il contenuto"
           value={formData.content}
           onChange={(event) => handleFormField("content", event.target.value)}
+          required
         />
         <br />
         <label htmlFor="category">Categoria:</label>
@@ -63,8 +78,11 @@ export default function App() {
           name="category"
           value={formData.category}
           onChange={(event) => handleFormField("category", event.target.value)}
+          required
         >
-          <option value="">Seleziona una categoria</option>
+          <option value="" hidden>
+            Seleziona una categoria
+          </option>
           <option value="FrontEnd">FrontEnd</option>
           <option value="BackEnd">BackEnd</option>
           <option value="UI/UX">UI/UX</option>
